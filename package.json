@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "dotenv -e .env.dev -- tsnd --rs --cls --respawn src/server.ts",
+    "generate:dev": "dotenv -e .env.dev -- npx prisma generate",
     "migrate:dev": "dotenv -e .env.dev -- npx prisma migrate dev",
+    "studio:dev": "dotenv -e .env.dev -- npx prisma studio",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
-    "test": "jest"
+    "test": "dotenv -e .env.test -- jest --verbose --runInBand"
   },
   "keywords": [],
   "author": "",
