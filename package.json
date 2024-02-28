@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "dotenv -e .env.dev -- tsnd --rs --cls --respawn src/server.ts",
+    "migrate:dev": "dotenv -e .env.dev -- npx prisma migrate dev",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
     "test": "jest"
   },
   "keywords": [],
