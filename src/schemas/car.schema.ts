@@ -12,4 +12,10 @@ const carSchema = z.object({
 const createCarSchema = carSchema.omit({ id: true });
 const updateCarSchema = createCarSchema.partial();
 
-export { carSchema, createCarSchema, updateCarSchema}
+const returnCarSchema = z.union([
+  carSchema.array(),
+  carSchema
+])
+
+
+export { carSchema, createCarSchema, updateCarSchema, returnCarSchema}
