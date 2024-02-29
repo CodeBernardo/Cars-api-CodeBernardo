@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import CarServices from "../services/car.services";
 
+@injectable()
 class CarController {
   constructor(@inject("CarServices") private carServices: CarServices) {}
 
@@ -28,7 +29,7 @@ class CarController {
 
   delete = async (req: Request, res: Response): Promise<Response> => {
     await this.carServices.delete(req.params.id)
-    return res.status(204);
+    return res.sendStatus(204);
   };
 }
 

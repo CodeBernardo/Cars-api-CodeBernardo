@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import CarServices from "../services/car.services";
 import CarController from "../controllers/car.controller";
 
+
 const carRouter = Router();
 container.registerSingleton("CarServices", CarServices);
 const carController = container.resolve(CarController);
