@@ -8,11 +8,11 @@
     "generate:dev": "dotenv -e .env.dev -- npx prisma generate",
     "migrate:dev": "dotenv -e .env.dev -- npx prisma migrate dev",
     "studio:dev": "dotenv -e .env.dev -- npx prisma studio",
-    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
-    "test": "dotenv -e .env.test -- jest --verbose --runInBand"
+    "test": "dotenv -e .env.test -- jest --verbose --runInBand",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bernardo Stein",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

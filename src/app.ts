@@ -1,5 +1,5 @@
-import "express-async-errors";
 import "reflect-metadata";
+import "express-async-errors";
 import cors from "cors";
 import helmet from "helmet";
 import express, { Application, json } from "express";

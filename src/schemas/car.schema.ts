@@ -3,7 +3,7 @@ import { z } from "zod";
 const carSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullish(),
   brand: z.string(),
   year: z.number().int().positive(),
   km: z.number().int().positive(),

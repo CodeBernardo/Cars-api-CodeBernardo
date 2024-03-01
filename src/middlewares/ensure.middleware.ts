@@ -14,7 +14,7 @@ class EnsureMiddleware {
     const carFound = await prisma.car.findUnique({ where: { id } });
 
     if (!carFound) {
-      throw new AppError(400, "Car not found.");
+      throw new AppError(404, "Car not found.");
     }
     return next();
   };
