@@ -1,6 +1,6 @@
 import prisma from "../../../database/database";
 import CarServices from "../../../services/car.services";
-import { createCarServiceMock } from "../../__mocks__/units/carMocks/car.mock";
+import { createCarServiceMock } from "../../__mocks__/car.mock";
 
 describe("Unit Test: Delete Car Service", () => {
   const deleteCarService = new CarServices().delete;
@@ -14,6 +14,6 @@ describe("Unit Test: Delete Car Service", () => {
     await deleteCarService(id);
     const carDeleted = await prisma.car.findUnique({ where: { id } });
 
-    expect(carDeleted).toBeNull()
+    expect(carDeleted).toBeNull();
   });
 });

@@ -3,7 +3,7 @@ import CarServices from "../../../services/car.services";
 import {
   UpdateCarServiceMock,
   createCarServiceMock,
-} from "../../__mocks__/units/carMocks/car.mock";
+} from "../../__mocks__/car.mock";
 
 describe("Unit Test: Update Car Service", () => {
   const updateCarService = new CarServices().update;
@@ -17,6 +17,6 @@ describe("Unit Test: Update Car Service", () => {
     const { body, expectedValue } = UpdateCarServiceMock;
     const received = await updateCarService(id, body);
 
-    expect(received).toStrictEqual(expectedValue)
+    expect(received).toStrictEqual(expectedValue);
   });
 });

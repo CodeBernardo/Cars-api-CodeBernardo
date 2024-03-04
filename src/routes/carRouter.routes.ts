@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 import CarServices from "../services/car.services";
 import CarController from "../controllers/car.controller";
 import ensure from "../middlewares/ensure.middleware";
-import { createCarSchema } from "../schemas/car.schema";
+import { createCarSchema, updateCarSchema } from "../schemas/car.schema";
 
 const carRouter = Router();
 
@@ -18,7 +18,11 @@ carRouter.get("", carController.read);
 
 carRouter.get("/:id", carController.retrieve);
 
-carRouter.patch("/:id", carController.update);
+carRouter.patch(
+  "/:id",
+  ensure.validBody(updateCarSchema),
+  carController.update,
+);
 
 carRouter.delete("/:id", carController.delete);
 

@@ -3,7 +3,7 @@ import CarServices from "../../../services/car.services";
 import {
   createCarServiceMock,
   createCarServiceMock2,
-} from "../../__mocks__/units/carMocks/car.mock";
+} from "../../__mocks__/car.mock";
 
 describe("Unit test: Create Car service", () => {
   const createCarService = new CarServices().create;

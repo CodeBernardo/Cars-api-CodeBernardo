@@ -1,6 +1,6 @@
 import prisma from "../../../database/database";
 import CarServices from "../../../services/car.services";
-import { createCarServiceMock } from "../../__mocks__/units/carMocks/car.mock";
+import { createCarServiceMock } from "../../__mocks__/car.mock";
 
 describe("Unit Test: Retrieve Car Service.", () => {
   const retrieveCar = new CarServices().retrieve;
