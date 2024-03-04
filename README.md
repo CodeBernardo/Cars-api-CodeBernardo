@@ -8,7 +8,7 @@ Além do desenvolvimento da API, dediquei um esforço significativo para garanti
 
 Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em desenvolvimento de APIs e testes automatizados, mas também me proporcionou uma compreensão mais profunda de como criar sistemas robustos e escaláveis.
 
-## Inicializaçao do projeto
+## Inicialização do projeto
 
 1. **_Node Version_**: v20.9.0^.
 2. **_Npm Version_**: 10.1.0^.
