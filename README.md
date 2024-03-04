@@ -1,6 +1,27 @@
-# Cars-api-CodeBernardo
+# Cars API - CodeBernardo
 
-## Cadastro de um carro
+## Apresentação
+
+Neste projeto de estudo, desenvolvi uma API robusta e eficiente para gerenciar um estoque de carros, utilizando uma combinação de tecnologias modernas e poderosas: Express para a criação do servidor, Prisma como ORM para facilitar a interação com o banco de dados, e TypeScript para garantir a tipagem estática e melhorar a qualidade do código. A escolha dessas tecnologias foi motivada pela necessidade de criar uma API escalável, segura e de fácil manutenção.
+
+Além do desenvolvimento da API, dediquei um esforço significativo para garantir a qualidade do código através de uma série de testes unitários e de integração. Utilizei o Jest, uma ferramenta de teste amplamente utilizada e confiável, para criar testes que cobrem tanto a lógica de negócios quanto as interações com o banco de dados. Esses testes são cruciais para garantir que a API funcione conforme esperado e para facilitar a detecção e correção de bugs antes que eles afetem os usuários finais.
+
+Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em desenvolvimento de APIs e testes automatizados, mas também me proporcionou uma compreensão mais profunda de como criar sistemas robustos e escaláveis.
+
+## Inicializaçao do projeto
+
+1. **_Node Version_**: v20.9.0^.
+2. **_Npm Version_**: 10.1.0^.
+3. **_Clone este repositório_**
+4. **_Instalação de dependencias_**: `npm install`
+5. **_Variáveis de ambiente_**: Serão necessários dois arquivos com as variáveis de ambiente, um contendo as variáveis do ambiente de desenvolvimento, `.env.dev`, e o outro as variáveis do ambiente de teste, `.env.test`, sobrescreva o conteúdo dos dois arquivos com as informações contidas no arquivo `.env.test` fornecendo suas credênciais.
+6. **_Migrações_**: Execute as migrações com os comandos: `npm run migrate:dev` e `npm migrate:test`.
+7. **_Rodar aplicação_**: Execute o comando `npm run dev`.
+8. **_Rodar testes_**: Execute o comando `npm run test`.
+
+## Features
+
+### Cadastro de um carro
 
 - **Rota**: POST `/cars`
 - **Descrição**: Cria um novo cadastro de um carro.
@@ -11,7 +32,7 @@
 ```json
 {
   "name": "Car name",
-  "description": "Car description",  // optional key
+  "description": "Car description", // optional key
   "brand": "Card brand",
   "year": 2023,
   "km": 10000
@@ -26,7 +47,7 @@
 {
   "id": "bd9b947c-4622-4a39-b394-88dde0135cdd",
   "name": "Car name",
-  "description": "Car description", 
+  "description": "Car description",
   "brand": "Card brand",
   "year": 2023,
   "km": 10000
@@ -35,7 +56,7 @@
 
 ---
 
-## Leitura dos carros cadastrados
+### Leitura dos carros cadastrados
 
 - **Rota**: GET `/cars`
 - **Descrição**: lista todos os carros registrados.
@@ -59,7 +80,7 @@
 
 ---
 
-## Buscar um carro específico
+### Buscar um carro específico
 
 - **Rota**: GET `/cars/:id`
 - **Descrição**: recupera um carro específico pelo ID.
@@ -90,7 +111,7 @@
 }
 ```
 
-## Atualizar um carro
+### Atualizar um carro
 
 - **Rota**: PATCH `/cars/:id`
 - **Descrição**: Atualiza um carro específico por ID.
@@ -142,8 +163,8 @@
       "expected": "string",
       "received": "number",
       "path": ["name"],
-      "message": "Expected string, received number",
-    },
+      "message": "Expected string, received number"
+    }
   ]
 }
 ```
@@ -161,6 +182,7 @@
 - **Exemplo de resposta id invalido**:
   - **Status code**: `404 Not found`
   - **Retorna uma mensagem de erro**:
+
 ```json
 {
   "message": "Car not found."
