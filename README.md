@@ -95,10 +95,8 @@
 - **Rota**: PATCH `/cars/:id`
 - **Descrição**: Atualiza um carro específico por ID.
 - **Parâmetros**:
-
   - `id`: O ID do carro a ser atualizado.
   - `body`: Um objeto JSON contendo os detalhes do carro a ser atualizado.
-
 - **Exemplo de Requisição**:
 
 ```json
