@@ -27,7 +27,7 @@ model Car {
 model User {
   id String @id @default(uuid())
   name String
-  email String
+  email String @unique
   password String
   cars Car[]
 }
