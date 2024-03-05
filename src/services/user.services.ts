@@ -10,7 +10,7 @@ import prisma from "../database/database";
 import { loginReturnSchema, userReturnSchema } from "../schemas/user.schema";
 import { compare, hash } from "bcryptjs";
 import AppError from "../errors/appError";
-import { sign } from "jsonwebtoken";
+import { decode, sign, verify } from "jsonwebtoken";
 
 @injectable()
 class UserService {
@@ -49,7 +49,14 @@ class UserService {
     });
   };
 
-  retrieve = () => {};
+  retrieve = async (token: string) => {
+    const { sub } = verify(token, String(process.env.SECRET_KEY!));
+    const userProfile = await prisma.user.findUnique({
+      where: { id: String(sub) },
+    });
+
+    return userReturnSchema.parseAsync(userProfile);
+  };
 }
 
 export default UserService;

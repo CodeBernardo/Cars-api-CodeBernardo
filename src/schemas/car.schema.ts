@@ -7,15 +7,12 @@ const carSchema = z.object({
   brand: z.string(),
   year: z.number().int().positive(),
   km: z.number().int().positive(),
+  userId: z.string()
 });
 
 const createCarSchema = carSchema.omit({ id: true });
 const updateCarSchema = createCarSchema.partial();
 
-const returnCarSchema = z.union([
-  carSchema.array(),
-  carSchema
-])
+const returnCarSchema = z.union([carSchema.array(), carSchema]);
 
-
-export { carSchema, createCarSchema, updateCarSchema, returnCarSchema}
+export { carSchema, createCarSchema, updateCarSchema, returnCarSchema };
