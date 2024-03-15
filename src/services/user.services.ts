@@ -10,7 +10,7 @@ import prisma from "../database/database";
 import { loginReturnSchema, userReturnSchema } from "../schemas/user.schema";
 import { compare, hash } from "bcryptjs";
 import AppError from "../errors/appError";
-import { decode, sign, verify } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 @injectable()
 class UserService {
@@ -22,7 +22,7 @@ class UserService {
       },
     });
 
-    return userReturnSchema.parseAsync(newUser);
+    return userReturnSchema.parse(newUser);
   };
 
   login = async ({ email, password }: UserLogin): Promise<UserLoginReturn> => {

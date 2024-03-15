@@ -1,4 +1,4 @@
-import "reflect-metadata"
+import "reflect-metadata";
 import { injectable } from "tsyringe";
 import { CreateCar, ReturnCar, UpdateCar } from "../interfaces/car.interface";
 import prisma from "../database/database";
@@ -11,7 +11,11 @@ class CarServices {
     return returnCarSchema.parseAsync(newCar);
   };
 
-  read = async (): Promise<ReturnCar | undefined> => {
+  read = async (userId?: string): Promise<ReturnCar | undefined> => {
+    if (userId) {
+      const carList = await prisma.car.findMany({ where: { userId } });
+      return returnCarSchema.parseAsync(carList);
+    }
     const carList = await prisma.car.findMany();
     return returnCarSchema.parseAsync(carList);
   };

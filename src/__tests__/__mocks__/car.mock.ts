@@ -1,4 +1,3 @@
-import { ZodError } from "zod";
 
 const createCarServiceMock = {
   body: {
@@ -7,6 +6,7 @@ const createCarServiceMock = {
     brand: "Card brand",
     year: 2023,
     km: 10000,
+    userId: expect.any(String),
   },
   expectedValue: {
     id: expect.any(String),
@@ -15,6 +15,7 @@ const createCarServiceMock = {
     brand: "Card brand",
     year: 2023,
     km: 10000,
+    userId: expect.any(String),
   },
 };
 
@@ -24,6 +25,7 @@ const createCarServiceMock2 = {
     brand: "Card brand",
     year: 2023,
     km: 10000,
+    userId: expect.any(String),
   },
   expectedValue: {
     id: expect.any(String),
@@ -32,6 +34,7 @@ const createCarServiceMock2 = {
     brand: "Card brand",
     year: 2023,
     km: 10000,
+    userId: expect.any(String),
   },
 };
 

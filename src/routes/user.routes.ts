@@ -1,14 +1,26 @@
 import { Router } from "express";
 import { container } from "tsyringe";
-import CarServices from "../services/car.services";
 import UserController from "../controllers/user.controller";
+import UserService from "../services/user.services";
+import ensure from "../middlewares/ensure.middleware";
+import { userCreateSchema, userLoginSchema } from "../schemas/user.schema";
+import { auth } from "../middlewares/auth.middleware";
 
 const userRouter = Router();
-container.registerSingleton("CarServices", CarServices);
-const userController = container.resolve(UserController)
+container.registerSingleton("UserService", UserService);
+const userController = container.resolve(UserController);
 
-userRouter.post("", userController.create)
-userRouter.post("/login", userController.login);
-userRouter.get("", userController.profile);
+userRouter.post(
+  "",
+  ensure.validBody(userCreateSchema),
+  ensure.emailIsUnique,
+  (req, res) => userController.create(req, res),
+);
+userRouter.post("/login", ensure.validBody(userLoginSchema), (req, res) =>
+  userController.login(req, res),
+);
+userRouter.get("", auth.isAuthenticated, (req, res) =>
+  userController.profile(req, res),
+);
 
 export default userRouter;

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { userSchema } from "./user.schema";
 
 const carSchema = z.object({
   id: z.string().uuid(),
