@@ -21,13 +21,197 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 
 ## Features
 
+### Cadastro de usuários
+
+- **Rota**: POST `/users`
+- **Descrição**: Cria um novo cadastro de usuário.
+- **Parâmetros**:
+  - `body`: Um objeto JSON contendo as credenciais do usuário a ser criado.
+- **Exemplo de requisição**:
+
+```json
+{
+  "name": "Jhon doe",
+  "email": "jhondoe@email.com",
+  "password": "123456"
+}
+```
+
+- **Exemplo de resposta**:
+  - **Status Code**: `201 Created`
+  - **Retorna o usuário cadastrado**
+
+```json
+{
+  "id": "3c86bcc9-87c8-42fc-91e2-b7a5adfd905f",
+  "name": "Jhon doe",
+  "email": "jhondoe@email.com"
+}
+```
+
+- **Exemplo de resposta de corpo inválido**:
+  - **Status Code**: `400 Bad Request`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["name"],
+      "message": "Required"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["email"],
+      "message": "Required"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["password"],
+      "message": "Required"
+    }
+  ]
+}
+```
+
+- **Exemplo de resposta de email já cadastrado**:
+  - **Status Code**: `409 Conflict`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": "E-mail already registered"
+}
+```
+
+---
+
+### Login de usuários
+
+- **Rota**: POST `/users/login`
+- **Descrição**: Gera um token de autenticação.
+- **Parâmetros**:
+  - `body`: Um objeto JSON contendo as credenciais do usuário.
+- **Exemplo de requisição**:
+
+```json
+{
+  "email": "jhondoe@email.com",
+  "password": "123456"
+}
+```
+
+- **Exemplo de resposta**:
+  - **Status Code**: `200 Accepted`
+  - **Retorna um token**
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGVkcm8iLCJlbWFpbCI6InBlZHJvQG1haWwuY29tIiwiaWF0IjoxNzEwNTEwOTUwLCJleHAiOjE3MTA1MTQ1NTAsInN1YiI6IjUxN2I2M2UwLTdhYjktNDgzMC1hNTVmLTA4MzIyYzI3YTk0YyJ9.Pdm2y5OI8f7hfGE2-gaLJyXiGwSqemoETP3ftVRVkdg",
+  "user": {
+    "id": "3c86bcc9-87c8-42fc-91e2-b7a5adfd905f",
+    "name": "jhon doe",
+    "email": "jhondoe@email.com"
+  }
+}
+```
+
+- **Exemplo de resposta de credenciais inválidas ou inexistentes**:
+  - **Status Code**: `401 Unauthorized`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": "Invalid credentials"
+}
+```
+
+- **Exemplo de resposta de corpo inválido**:
+  - **Status Code**: `400 Bad request`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["email"],
+      "message": "Required"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": ["password"],
+      "message": "Required"
+    }
+  ]
+}
+```
+
+---
+
+### Retornar perfil de usuário
+
+- **Rota**: GET `/users`
+- **Descrição**: Retorna os dados do usuário logado.
+- **Parâmetros**:
+  - `header "Authorization"`
+  - `Bearer token`: uma string contendo um token válido.
+- **Exemplo de resposta**:
+  - **Status Code**: `200 Accepted`
+  - **Retorna um usuário**
+
+```json
+{
+  "id": "0cf579b3-db9f-4667-b513-ef6e51afef98",
+  "name": "John Doe",
+  "email": "johndoe@email.com"
+}
+```
+
+- **Exemplo de resposta de token inválido**:
+  - **Status Code**: `401 Unauthorized`
+  - **Retorna retorna um erro de validação**
+
+```json
+{
+  "message": "Token is required"
+}
+```
+
+```json
+{
+  "message": "Jwt malformed"
+}
+```
+
+```json
+{
+  "message": "jwt expired"
+}
+```
+
+---
+
 ### Cadastro de um carro
 
 - **Rota**: POST `/cars`
 - **Descrição**: Cria um novo cadastro de um carro.
 - **Parâmetros**:
+  - `header "Authorization"`
+  - `Bearer token`: uma string contendo um token válido.
   - `body`: Um objeto JSON contendo os detalhes do carro a ser criado.
-- **Exemplo de Requisição**:
+- **Exemplo de requisição**:
 
 ```json
 {
@@ -36,10 +220,11 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
   "brand": "Card brand",
   "year": 2023,
   "km": 10000
+  // userId é recuperado através do token
 }
 ```
 
-- **Exemplo de Resposta**:
+- **Exemplo de resposta**:
   - **Status Code**: `201 Created`
   - **Retorna o carro cadastrado**
 
@@ -50,7 +235,30 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
   "description": "Car description",
   "brand": "Card brand",
   "year": 2023,
-  "km": 10000
+  "km": 10000,
+  "userId": "0cf579b3-db9f-4667-b513-ef6e51afef98"
+}
+```
+
+- **Exemplos de resposta de token inválido**:
+  - **Status Code**: `401 Unauthorized`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": "Token is required"
+}
+```
+
+```json
+{
+  "message": "Jwt malformed"
+}
+```
+
+```json
+{
+  "message": "jwt expired"
 }
 ```
 
@@ -59,9 +267,10 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 ### Leitura dos carros cadastrados
 
 - **Rota**: GET `/cars`
-- **Descrição**: lista todos os carros registrados.
-- **Parâmetros**: Nenhum.
-- **Exemplo de Resposta**:
+- **Descrição**: lista todos os carros registrados ou todos os carros de um usuário específico.
+- **Parâmetros**:
+  - `id`: O ID de um usuário existente. Este parâmetro é opcional.
+- **Exemplo de resposta**:
   - **Status code**: `200 OK`
   - **Retorna uma lista de todos os carros cadastrados**
 
@@ -73,7 +282,8 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
     "description": "Car description",
     "brand": "Card brand",
     "year": 2023,
-    "km": 10000
+    "km": 10000,
+    "userId": "0cf579b3-db9f-4667-b513-ef6e51afef98"
   }
 ]
 ```
@@ -86,7 +296,7 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 - **Descrição**: recupera um carro específico pelo ID.
 - **Parâmetros**:
   - `id`: O ID do carro a ser recuperado.
-- **Exemplo de Resposta**:
+- **Exemplo de resposta**:
   - **Status code**: `200 OK`
   - **Retorna o carro encontrado**
 
@@ -97,11 +307,12 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
   "description": "Car description",
   "brand": "Card brand",
   "year": 2023,
-  "km": 10000
+  "km": 10000,
+  "userId": "0cf579b3-db9f-4667-b513-ef6e51afef98"
 }
 ```
 
-- **Exemplo de resposta id invalido**:
+- **Exemplo de resposta id inválido**:
   - **Status Code**: `404 Not Found`
   - **Retorna uma mensagem de erro**
 
@@ -116,9 +327,11 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 - **Rota**: PATCH `/cars/:id`
 - **Descrição**: Atualiza um carro específico por ID.
 - **Parâmetros**:
+  - `header "Authorization"`
+  - `Bearer token`: uma string contendo um token válido.
   - `id`: O ID do carro a ser atualizado.
   - `body`: Um objeto JSON contendo os detalhes do carro a ser atualizado.
-- **Exemplo de Requisição**:
+- **Exemplo de requisição**:
 
 ```json
 {
@@ -126,7 +339,7 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 }
 ```
 
-- **Exemplo de Resposta**:
+- **Exemplo de resposta**:
   - **Status Code**: `200 OK`
   - **Retorna o carro atualizado**
 
@@ -151,7 +364,7 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 }
 ```
 
-- **Exemplo de resposta parametros de corpo invalidos**:
+- **Exemplo de resposta parametros de corpo inválidos**:
   - **Status Code**: `400 Bad Request`
   - **Retorna uma mensagem de erro de validação**
 
@@ -169,6 +382,28 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 }
 ```
 
+- **Exemplos de resposta de token inválido**:
+  - **Status Code**: `401 Unauthorized`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": "Token is required"
+}
+```
+
+```json
+{
+  "message": "Jwt malformed"
+}
+```
+
+```json
+{
+  "message": "jwt expired"
+}
+```
+
 ---
 
 ### Deletar um carro
@@ -176,6 +411,8 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 - **Rota**: DELETE `/cars/:id`
 - **Descrição**: Exclui um carro específico por ID.
 - **Parâmetros**:
+  - `header "Authorization"`
+  - `Bearer token`: uma string contendo um token válido.
   - `id`: O ID do carro a ser excluído.
 - **Exemplo de resposta**:
   - **Status code**: `204 No Content`
@@ -186,5 +423,26 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 ```json
 {
   "message": "Car not found."
+}
+```
+- **Exemplos de resposta de token inválido**:
+  - **Status Code**: `401 Unauthorized`
+  - **Retorna um erro de validação**
+
+```json
+{
+  "message": "Token is required"
+}
+```
+
+```json
+{
+  "message": "Jwt malformed"
+}
+```
+
+```json
+{
+  "message": "jwt expired"
 }
 ```
