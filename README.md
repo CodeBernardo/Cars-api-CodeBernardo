@@ -266,7 +266,7 @@ Este projeto não só me permitiu aplicar e aprofundar meus conhecimentos em des
 
 ### Leitura dos carros cadastrados
 
-- **Rota**: GET `/cars`
+- **Rota**: GET `/cars` ou `/cars/:id`
 - **Descrição**: lista todos os carros registrados ou todos os carros de um usuário específico.
 - **Parâmetros**:
   - `id`: O ID de um usuário existente. Este parâmetro é opcional.
