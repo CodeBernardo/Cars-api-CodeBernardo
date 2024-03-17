@@ -1,5 +1,6 @@
 import prisma from "../../../database/database";
 import { createCarServiceMock } from "../../__mocks__/car.mock";
+import { createValidUserId } from "../../__mocks__/user.mocks";
 import request from "../../utils/request";
 
 describe("Integration Test: Retrieve Car Service", () => {
@@ -7,8 +8,9 @@ describe("Integration Test: Retrieve Car Service", () => {
   afterAll(async () => await prisma.car.deleteMany());
 
   test("Should be able to retrieve a car successfully", async () => {
+    const userId = await createValidUserId();
     const { body, expectedValue } = createCarServiceMock;
-    const { id } = await prisma.car.create({ data: body });
+    const { id } = await prisma.car.create({ data: { ...body, userId } });
 
     const received = await request
       .get(`/cars/${id}`)
