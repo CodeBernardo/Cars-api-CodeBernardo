@@ -3,10 +3,18 @@ import { createCarServiceMock } from "../../__mocks__/car.mock";
 import request from "../../utils/request";
 
 describe("Integration Test: Delete Car Service", () => {
-  beforeEach(async () => await prisma.car.deleteMany());
-  afterAll(async () => await prisma.car.deleteMany());
+
+  beforeEach(async () => {
+    await prisma.car.deleteMany();
+    await prisma.user.deleteMany();
+  });
+  afterAll(async () => {
+    await prisma.car.deleteMany();
+    await prisma.user.deleteMany();
+  });
 
   test("Should be able to delete car successfully", async () => {
+    
     const { id } = await prisma.car.create({ data: createCarServiceMock.body });
 
     await request.delete(`/cars/${id}`).expect(204);

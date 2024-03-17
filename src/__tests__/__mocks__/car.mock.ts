@@ -50,6 +50,7 @@ const UpdateCarServiceMock = {
     brand: "Card brand",
     year: 2023,
     km: 10000,
+    userId: expect.any(String),
   },
 };
 

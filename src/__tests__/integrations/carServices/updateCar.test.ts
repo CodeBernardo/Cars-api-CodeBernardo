@@ -1,21 +1,40 @@
+import { sign } from "jsonwebtoken";
 import prisma from "../../../database/database";
 import {
   UpdateCarServiceMock,
   UpdateCarinvalidBodyMock,
   createCarServiceMock,
+  createCarServiceMock2,
 } from "../../__mocks__/car.mock";
+import {
+  createUserServiceMock2,
+  createValidUserId,
+  generateJWT,
+} from "../../__mocks__/user.mocks";
 import request from "../../utils/request";
 
 describe("Integration Test: Update Car Service", () => {
-  beforeEach(async () => await prisma.car.deleteMany());
-  afterAll(async () => await prisma.car.deleteMany());
+  beforeEach(async () => {
+    await prisma.car.deleteMany();
+    await prisma.user.deleteMany();
+  });
+  afterAll(async () => {
+    await prisma.car.deleteMany();
+    await prisma.user.deleteMany();
+  });
 
   test("Should be able to update car succsessfully", async () => {
-    const { id } = await prisma.car.create({ data: createCarServiceMock.body });
+    const userId = await createValidUserId();
+    const token = sign({}, process.env.SECRET_KEY!, { subject: userId });
+    const { id } = await prisma.car.create({
+      data: { ...createCarServiceMock.body, userId },
+    });
+
     const { body, expectedValue } = UpdateCarServiceMock;
 
     const received = await request
       .patch(`/cars/${id}`)
+      .set("Authorization", `Bearer ${token}`)
       .send(body)
       .expect(200)
       .then((res) => res.body);
@@ -24,11 +43,17 @@ describe("Integration Test: Update Car Service", () => {
   });
 
   test("Should throw an error if invalid body params", async () => {
-    const { id } = await prisma.car.create({ data: createCarServiceMock.body });
+    const userId = await createValidUserId();
+    const token = sign({}, process.env.SECRET_KEY!, { subject: userId });
+    const { id } = await prisma.car.create({
+      data: { ...createCarServiceMock.body, userId },
+    });
+
     const { body, expectedValue } = UpdateCarinvalidBodyMock;
 
     const received = await request
       .patch(`/cars/${id}`)
+      .set("Authorization", `Bearer ${token}`)
       .send(body)
       .expect(400)
       .then((res) => res.body);
@@ -37,11 +62,33 @@ describe("Integration Test: Update Car Service", () => {
   });
 
   test("Should throw an error if invalid car id", async () => {
+    const token = await generateJWT();
+
     const received = await request
       .patch("/cars/invalidId")
+      .set("Authorization", `Bearer ${token}`)
       .expect(404)
       .then((res) => res.body);
 
     expect(received).toStrictEqual({ message: "Car not found." });
+  });
+
+  test("Should throw an error if user is not the car owner", async () => {
+
+    const { id: userId } = await prisma.user.create({
+      data: createUserServiceMock2.body,
+    });
+    const token = await generateJWT();
+    const { id } = await prisma.car.create({
+      data: { ...createCarServiceMock2.body, userId },
+    });
+
+    const received = await request
+      .patch(`/cars/${id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(401)
+      .then((res) => res.body);
+
+    expect(received).toStrictEqual({ message: "User is not the car owner" });
   });
 });
